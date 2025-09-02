@@ -1,0 +1,54 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a4554;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3a3545;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg-gradient)"/>
+  
+  <!-- Horse mascot placeholder (would need to embed the actual image) -->
+  <rect x="100" y="175" width="280" height="280" fill="#666" rx="20"/>
+  <text x="240" y="330" text-anchor="middle" fill="#f5f5f0" font-family="Arial" font-size="40">🐴</text>
+  
+  <!-- Main content -->
+  <g transform="translate(450, 180)">
+    <!-- Title -->
+    <text x="0" y="80" fill="#f5f5f0" font-family="Arial, sans-serif" font-size="72" font-weight="900" letter-spacing="-2px">
+      HORSESTRAP
+    </text>
+    
+    <!-- Subtitle -->
+    <text x="0" y="130" fill="#b8b8c0" font-family="Arial, sans-serif" font-size="28" font-weight="600">
+      The Anti-Framework Framework
+    </text>
+    
+    <!-- Tagline -->
+    <text x="0" y="170" fill="#999" font-family="Arial, sans-serif" font-size="24" font-style="italic">
+      Zero-config deployment for .NET Umbraco CMS
+    </text>
+    <text x="0" y="200" fill="#999" font-family="Arial, sans-serif" font-size="24" font-style="italic">
+      Fresh Ubuntu to live site in 2 minutes
+    </text>
+    
+    <!-- Features -->
+    <g transform="translate(0, 240)">
+      <text x="0" y="0" fill="#f5f5f0" font-family="Arial, sans-serif" font-size="18" font-weight="600">
+        🚀 2-Min Deploy
+      </text>
+      <text x="180" y="0" fill="#f5f5f0" font-family="Arial, sans-serif" font-size="18" font-weight="600">
+        🖥️ CMS Ready
+      </text>
+      <text x="340" y="0" fill="#f5f5f0" font-family="Arial, sans-serif" font-size="18" font-weight="600">
+        ⚡ Auto SSL
+      </text>
+    </g>
+  </g>
+  
+  <!-- Horse pun -->
+  <text x="1160" y="610" text-anchor="end" fill="#999" font-family="Arial, sans-serif" font-size="16" font-style="italic">
+    No horse shit, just results. 🐴
+  </text>
+</svg>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #4a4554 0%, #3a3545 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f5f5f0;
+            overflow: hidden;
+        }
+        
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            max-width: 1100px;
+            text-align: left;
+        }
+        
+        .mascot {
+            width: 280px;
+            height: 280px;
+            background: url('horsestrap-mascot.png') no-repeat center;
+            background-size: contain;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+            flex-shrink: 0;
+        }
+        
+        .content {
+            flex: 1;
+        }
+        
+        .title {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -2px;
+            line-height: 0.9;
+        }
+        
+        .subtitle {
+            font-size: 28px;
+            color: #b8b8c0;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .tagline {
+            font-size: 24px;
+            color: #999;
+            font-style: italic;
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
+        
+        .features {
+            display: flex;
+            gap: 40px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+        }
+        
+        .horse-pun {
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            font-size: 16px;
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="mascot"></div>
+        <div class="content">
+            <div class="title">HORSESTRAP</div>
+            <div class="subtitle">The Anti-Framework Framework</div>
+            <div class="tagline">Zero-config deployment for .NET Umbraco CMS<br>Fresh Ubuntu to live site in 2 minutes</div>
+            <div class="features">
+                <div class="feature">
+                    <span class="feature-icon">🚀</span>
+                    <span>2-Min Deploy</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🖥️</span>
+                    <span>CMS Ready</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">⚡</span>
+                    <span>Auto SSL</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="horse-pun">No horse shit, just results. 🐴</div>
+</body>
+</html>
