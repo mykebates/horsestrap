@@ -148,33 +148,63 @@ ConnectionStrings__DefaultConnection=your-connection-string
 
 ## 🚀 Getting Started
 
-### Option 1: New Project (Recommended)
+### Two-Step Process: Development → Production
+
+**Step 1: Development (Your Local Machine)**
 ```bash
-# Install Horsestrap
+# Install Horsestrap CLI on your development machine
 curl -fsSL https://horsestrap.com/install.sh | sudo bash
 
-# Create project
+# Create new project
 horsestrap init MyProject
 cd MyProject
 
-# Local development
-cd MyProject.Web && dotnet run
+# Local development with .NET (no Docker required)
+cd MyProject.Web
+dotnet run
+# Your site runs at http://localhost:5000
+# Uses SQLite database - no setup required
 
-# Production deployment
-horsestrap setup
+# Build your application
+# - Add features, content, styling
+# - Test functionality locally
+# - Commit code to Git repository
+
+git add .
+git commit -m "My awesome project"
+git push origin main
 ```
 
-### Option 2: Add to Existing Project
+**Step 2: Production (Your Ubuntu Server)**
 ```bash
-# Clone Horsestrap template
-git clone https://github.com/mykebates/horsestrap.git
-cd horsestrap
+# On your production server, install Horsestrap
+curl -fsSL https://horsestrap.com/install.sh | sudo bash
 
-# Copy deployment files to your project
-cp setup.sh deploy.sh docker-compose.yml Caddyfile /path/to/your-project/
+# Clone your developed project
+git clone https://github.com/yourusername/MyProject.git
+cd MyProject
 
-# Configure for your stack
-# Edit docker-compose.yml, setup.sh as needed
+# Deploy to production (interactive setup)
+horsestrap setup
+# Prompts for domain, generates SSL certificates
+# Automatically switches to SQL Server database
+# Site goes live immediately
+
+# For future updates from your dev machine:
+git push origin main        # Push changes
+# Then on server:
+horsestrap update          # Zero-downtime deployment
+```
+
+### Alternative: Add to Existing Project
+```bash
+# If you have an existing .NET project
+git clone https://github.com/mykebates/horsestrap.git temp-horsestrap
+cp temp-horsestrap/{setup.sh,deploy.sh,docker-compose.yml,Caddyfile} /path/to/your-project/
+rm -rf temp-horsestrap
+
+# Edit docker-compose.yml to match your project structure
+# Follow the two-step process above
 ```
 
 ## 🔧 Common Workflows
@@ -241,30 +271,129 @@ horsestrap restart         # Restart all services
 - **Regular Updates**: Security patches via base images
 - **Health Monitoring**: Automatic failure detection
 
-## 🌟 Examples
+## 🌟 Complete Workflow Examples
 
 ### Create a Blog
+
+**Step 1: Development (Your Local Machine)**
 ```bash
+# Install Horsestrap CLI locally
+curl -fsSL https://horsestrap.com/install.sh | sudo bash
+
+# Create new project
 horsestrap init MyBlog
 cd MyBlog
-# Edit content, customize theme
+
+# Local development - build your blog
+cd MyBlog.Web
+dotnet run
+# Site runs at http://localhost:5000
+# Edit content, customize theme, add posts, etc.
+# Commit your changes to Git
+```
+
+**Step 2: Production Deployment (Your Ubuntu Server)**
+```bash
+# On your Ubuntu server, install Horsestrap
+curl -fsSL https://horsestrap.com/install.sh | sudo bash
+
+# Clone your developed project
+git clone https://github.com/yourusername/MyBlog.git
+cd MyBlog
+
+# Deploy to production
 horsestrap setup --domain=myblog.com
+# Site goes live at https://myblog.com with SSL
 ```
 
 ### E-commerce Site
+
+**Step 1: Development (Your Local Machine)**
 ```bash
-horsestrap init MyStore  
+# Install Horsestrap CLI locally
+curl -fsSL https://horsestrap.com/install.sh | sudo bash
+
+# Create new project
+horsestrap init MyStore
 cd MyStore
-# Add e-commerce features
+
+# Local development - build your e-commerce features
+cd MyStore.Web
+dotnet run
+# Site runs at http://localhost:5000
+# Add products, shopping cart, payment integration, etc.
+# Test thoroughly, commit changes
+```
+
+**Step 2: Production Deployment (Your Ubuntu Server)**
+```bash
+# On your Ubuntu server, install Horsestrap
+curl -fsSL https://horsestrap.com/install.sh | sudo bash
+
+# Clone your developed project
+git clone https://github.com/yourusername/MyStore.git
+cd MyStore
+
+# Deploy to production with custom domain
 horsestrap setup --domain=mystore.com
+# Store goes live at https://mystore.com
 ```
 
 ### Corporate Website
+
+**Step 1: Development (Your Local Machine)**
 ```bash
+# Install Horsestrap CLI locally
+curl -fsSL https://horsestrap.com/install.sh | sudo bash
+
+# Create new project
 horsestrap init CorporateSite
-cd CorporateSite  
-# Customize for corporate needs
+cd CorporateSite
+
+# Local development - build corporate features
+cd CorporateSite.Web
+dotnet run
+# Site runs at http://localhost:5000
+# Add company pages, team bios, contact forms, etc.
+# Perfect the design, test functionality
+```
+
+**Step 2: Production Deployment (Your Ubuntu Server)**
+```bash
+# On your Ubuntu server, install Horsestrap
+curl -fsSL https://horsestrap.com/install.sh | sudo bash
+
+# Clone your completed project
+git clone https://github.com/yourcompany/CorporateSite.git
+cd CorporateSite
+
+# Deploy to production
 horsestrap setup --domain=company.com
+# Corporate site goes live at https://company.com
+```
+
+## 🖥 Server Requirements (Ubuntu)
+
+**Minimum Requirements:**
+- Ubuntu 20.04 LTS or newer
+- 2GB RAM (for SQL Server)
+- 10GB disk space
+- Ports 80 and 443 open
+- Domain pointing to server IP
+
+**Quick Server Setup:**
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker $USER
+
+# Log out and back in for Docker permissions
+# Install Horsestrap
+curl -fsSL https://horsestrap.com/install.sh | sudo bash
 ```
 
 ## 📚 Documentation
