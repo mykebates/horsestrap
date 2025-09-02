@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horsestrap - Zero-config deployment for the distinguished developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #4a4554;
+            --horse-gray: #999;
+            --horse-light: #b8b8c0;
+            --white-accent: #f5f5f0;
+            --black: #1a1a1a;
+            --success: #52c41a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #3a3545 100%);
+            color: var(--white-accent);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .mascot {
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+            background: url('horsestrap-mascot.png') no-repeat center;
+            background-size: contain;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--horse-light);
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+
+        .install-box {
+            background: var(--black);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .install-label {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--bg-dark);
+            padding: 0 10px;
+            font-size: 0.875rem;
+            color: var(--horse-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .install-command {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 1.125rem;
+            color: var(--white-accent);
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            padding: 0.5rem;
+            position: relative;
+        }
+
+        .install-command::before {
+            content: '$ ';
+            color: var(--horse-gray);
+        }
+
+        .copy-button {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: 1px solid var(--horse-gray);
+            color: var(--horse-gray);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .copy-button:hover {
+            background: var(--horse-gray);
+            color: var(--black);
+        }
+
+        .copy-button.copied {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+            color: var(--white-accent);
+        }
+
+        .feature p {
+            font-size: 0.875rem;
+            color: var(--horse-light);
+        }
+
+        .philosophy {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border-left: 4px solid var(--horse-gray);
+        }
+
+        .philosophy h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--white-accent);
+        }
+
+        .philosophy p {
+            color: var(--horse-light);
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+
+        .commands {
+            text-align: left;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .commands h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .command-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .command-item {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .command-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .command-name {
+            font-family: 'SF Mono', Monaco, monospace;
+            color: var(--white-accent);
+            font-weight: 600;
+        }
+
+        .command-desc {
+            color: var(--horse-light);
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: var(--horse-gray);
+        }
+
+        footer a {
+            color: var(--horse-light);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--horse-light);
+        }
+
+        footer a:hover {
+            color: var(--white-accent);
+            border-bottom-style: solid;
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .command-item {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="mascot"></div>
+        
+        <h1>HORSESTRAP</h1>
+        <p class="tagline">Zero-configuration deployment for the distinguished developer</p>
+        
+        <div class="install-box">
+            <span class="install-label">Quick Install</span>
+            <div class="install-command" id="install-command">
+                curl -fsSL https://horsestrap.com/install.sh | bash
+            </div>
+            <button class="copy-button" onclick="copyCommand()">Copy</button>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🚀</div>
+                <h3>2-Minute Deploy</h3>
+                <p>From git clone to production. No BS.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎩</div>
+                <h3>Opinionated</h3>
+                <p>My way. Not the highway.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Zero Config</h3>
+                <p>It just works. Like it should.</p>
+            </div>
+        </div>
+
+        <div class="philosophy">
+            <h2>The Anti-Framework Framework</h2>
+            <p>
+                Born during the Bootstrap revolution. Built as a middle finger to bloat.
+                This isn't another framework begging for GitHub stars. 
+                It's a personal toolkit that does exactly what's needed, nothing more.
+                Stop downloading 47 dependencies to display a website.
+            </p>
+        </div>
+
+        <div class="commands">
+            <h2>Dead Simple Commands</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <span class="command-name">horsestrap init</span>
+                    <span class="command-desc">Create a new project from template</span>
+                </div>
+                <div class="command-item">
+                    <span class="command-name">horsestrap setup</span>
+                    <span class="command-desc">Interactive production deployment</span>
+                </div>
+                <div class="command-item">
+                    <span class="command-name">horsestrap update</span>
+                    <span class="command-desc">Zero-downtime updates</span>
+                </div>
+                <div class="command-item">
+                    <span class="command-name">horsestrap logs</span>
+                    <span class="command-desc">View service logs</span>
+                </div>
+                <div class="command-item">
+                    <span class="command-name">horsestrap status</span>
+                    <span class="command-desc">Check health of all services</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>
+                Build your own damn tools.
+                <br>
+                <a href="https://github.com/mykebates/horsestrap" target="_blank">GitHub</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        function copyCommand() {
+            const command = document.getElementById('install-command').textContent.replace('$ ', '');
+            navigator.clipboard.writeText(command).then(() => {
+                const button = document.querySelector('.copy-button');
+                button.classList.add('copied');
+                button.textContent = 'Copied!';
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+
+        // Click anywhere on the command to copy
+        document.getElementById('install-command').addEventListener('click', copyCommand);
+    </script>
+</body>
+</html>

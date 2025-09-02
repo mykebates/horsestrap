@@ -1,0 +1,55 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: horsestrap-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express         # Express edition for cost efficiency
+      - MSSQL_SA_PASSWORD=${SA_PASSWORD:?set in .env}
+    volumes:
+      - sql_data:/var/opt/mssql   # persists the DB files
+      - ./backups:/var/opt/mssql/backups
+    ports:
+      - "1433:1433"              # Exposed for database management
+    healthcheck:
+      test: [ "CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P $$MSSQL_SA_PASSWORD -C -Q 'SELECT 1' || exit 1" ]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  web:
+    # This will be overridden by individual projects
+    image: your-app-image:latest
+    build: .
+    environment:
+      - ASPNETCORE_URLS=http://0.0.0.0:8080
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
+      - ConnectionStrings__umbracoDbDSN=Server=db,1433;Database=${DB_NAME:-YourApp_Web};User Id=sa;Password=${SA_PASSWORD};Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;
+      - ConnectionStrings__umbracoDbDSN__ProviderName=Microsoft.Data.SqlClient
+      - Umbraco__CMS__WebRouting__UmbracoApplicationUrl=https://${DOMAIN}
+      - Umbraco__CMS__ModelsBuilder__ModelsMode=Nothing
+      - ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
+    depends_on:
+      db:
+        condition: service_healthy
+    expose: [ "8080" ]
+    volumes:
+      - ./media:/app/wwwroot/media
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    ports: [ "80:80", "443:443" ]
+    environment:
+      - DOMAIN=${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddypki:/data
+      - caddycfg:/config
+    depends_on: [ web ]
+    restart: unless-stopped
+
+volumes:
+  caddypki:
+  caddycfg:
+  sql_data:
