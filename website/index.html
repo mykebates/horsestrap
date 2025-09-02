@@ -301,9 +301,7 @@
         
         <div class="install-box">
             <span class="install-label">Quick Install</span>
-            <div class="install-command" id="install-command">
-                curl -fsSL https://horsestrap.com/install.sh | sudo bash
-            </div>
+            <div class="install-command" id="install-command">curl -fsSL https://horsestrap.com/install.sh | sudo bash</div>
             <button class="copy-button" onclick="copyCommand()">Copy</button>
         </div>
 
@@ -398,7 +396,7 @@
 
     <script>
         function copyCommand() {
-            const command = document.getElementById('install-command').textContent.replace('$ ', '');
+            const command = document.getElementById('install-command').textContent.trim().replace('$ ', '');
             navigator.clipboard.writeText(command).then(() => {
                 const button = document.querySelector('.copy-button');
                 button.classList.add('copied');
